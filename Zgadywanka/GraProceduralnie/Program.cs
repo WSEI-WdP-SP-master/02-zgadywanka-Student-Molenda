@@ -22,51 +22,27 @@ namespace GraProceduralnie
             Console.WriteLine("Wylosowałem liczbę od 1 do 100.\n Odgadnij ją!");
             #endregion
 
-            //POWTARZAJ AŻ Do ZGADNIĘCIA
-
-            //bool trafiono = false;
             do
             {
-                #region 2. Człowiek proponuje
-                Console.Write("Podaj swoja propozycję: ");
-                string napis = Console.ReadLine();
+                int propozycja = WczytajLiczbe("Podaj swoją propozycję (lub X aby zakończyć): ");
 
-                int propozycja;
-                if (!int.TryParse(napis, out propozycja))
-                {
-                    Console.WriteLine("Nie podałeś poprawnej liczby.\n Spróbuj raz jeszcze.");
-                    continue;
-                }
-
-                Console.WriteLine($"Zaproponowałeś: {propozycja}");
-
-                #endregion
-
-                #region 3. Komputer ocenia propozycję
                 if (propozycja < wylosowana)
                 {
-                    Console.WriteLine(ZA_MALO);
+                    ColorWriteLine(ZA_MALO, ConsoleColor.Red);
                 }
                 else if (propozycja > wylosowana)
                 {
-                    Console.WriteLine(ZA_DUZO);
+                    ColorWriteLine(ZA_DUZO, ConsoleColor.Red);
                 }
                 else
                 {
-                    Console.WriteLine(TRAFIONO);
-                    break; //trafiono = true;
+                    ColorWriteLine(TRAFIONO, ConsoleColor.Green);
+                    break;
                 }
-
-                #endregion
             }
-            while (true); //while (!trafiono);
-                          //KONIEC POWTARZANIA
+            while (true);
 
             Console.WriteLine("Koniec gry");
         }
-    
-
-
-
     }
 }

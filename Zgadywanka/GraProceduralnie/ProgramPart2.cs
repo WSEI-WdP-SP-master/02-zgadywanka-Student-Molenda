@@ -29,25 +29,50 @@ namespace GraProceduralnie
 
         static int Losuj1(int min, int max) => (new Random()).Next(min, max + 1);
 
-        Func<int, int, int> Losuj3 =   (min, max) => (new Random()).Next(min, max+1); // z uzyciem lambda notacji
+        Func<int, int, int> Losuj3 = (min, max) => (new Random()).Next(min, max + 1); // z uzyciem lambda notacji
 
         // ===========================
 
 
-        static int WczytajLiczbe(string komunikat = "Podaj liczbę: ")
+        static int WczytajLiczbe(string komunikat = "Podaj liczbę (lub X aby zakończyć): ")
         {
-            Console.WriteLine(komunikat);
-            string napis = Console.ReadLine();
-            if(napis == "x" || napis == "X")
+            do
             {
-                Console.WriteLine("Poddałeś się. Koniec programu");
-                Environment.Exit(0);
-            }
+                Console.Write(komunikat);
+                string napis = Console.ReadLine();
+                if(napis.Trim().ToUpper() == "X")      //(napis == "x" || napis == "X")
+                {
+                    Console.WriteLine("Poddałeś się. Koniec programu");
+                    Environment.Exit(0); // wyjście z całego programu
+                }
 
-            int wynik = int.Parse(napis);
-            return wynik;
+                if (int.TryParse(napis, out int wynik))
+                {
+                    return wynik;
+                }
+                else
+                {
+                    Console.WriteLine("Nie podałeś liczby całkowitej, spróbuj raz jeszcze.");
+                }
+            }
+            while (true);
         }
 
+        // =================================
+
+        static void ColorWrite(string text, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(text);
+            Console.ResetColor();
+        }
+
+        static void ColorWriteLine(string text, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
 
     }
 }
