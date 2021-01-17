@@ -1,13 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GraModel
 {
     public class Gra
     {
         private readonly int liczbaOdgadywana;
+
         public int Min { get; private set; }
         public int Max { get; private set; }
+
+        public enum Stan { Trwa, Poddana, Zakonczona }
+        public Stan StanGry { get; private set; }
+
         // historia ruchów
+        public readonly List<Ruch> ListaRuchow;
+
+        public TimeSpan CzasGry =>  ListaRuchow[ListaRuchow.Count - 1].kiedy - ListaRuchow[0].kiedy;
 
         // ctor's
 
@@ -22,7 +31,9 @@ namespace GraModel
             this.Min = min;
             Max = max;
             liczbaOdgadywana = (new Random()).Next(min, max + 1);
-            // historia
+            StanGry = Stan.Trwa;
+            ListaRuchow = new List<Ruch>();
+            ListaRuchow.Add(new Ruch(propozycja: null, odpowiedz: null, StanGry));
         }
 
         public Gra(): this(1,100) {  }
@@ -45,18 +56,28 @@ namespace GraModel
         {
             if( propozycja < liczbaOdgadywana )
             {
+                ListaRuchow.Add(new Ruch(propozycja, Odpowiedz.ZaMalo, StanGry));
                 return Odpowiedz.ZaMalo;
             }
             else if( propozycja > liczbaOdgadywana )
             {
+                ListaRuchow.Add(new Ruch(propozycja, Odpowiedz.ZaDuzo, StanGry));
                 return Odpowiedz.ZaDuzo;
             }
             else
             {
+                StanGry = Stan.Zakonczona;
+                ListaRuchow.Add(new Ruch(propozycja, Odpowiedz.ZaDuzo, StanGry));
                 return Odpowiedz.Trafiono;
             }
         }
 
+        public int Poddaj()
+        {
+            StanGry = Stan.Poddana;
+            ListaRuchow.Add(new Ruch(propozycja: null, odpowiedz: null, StanGry));
+            return liczbaOdgadywana;
+        }
 
     }
 }
