@@ -29,5 +29,34 @@ namespace GraModel
 
         // inne metody
 
+        public override string ToString()
+        {
+#if DEBUG
+            return $"min={Min}, max={Max}, do odgadnięcia={liczbaOdgadywana}";
+#else
+            return base.ToSting();
+#endif
+        }
+
+
+        public enum Odpowiedz { ZaMalo = -1, Trafiono = 0, ZaDuzo = 1 }
+
+        public Odpowiedz Ocena(int propozycja)
+        {
+            if( propozycja < liczbaOdgadywana )
+            {
+                return Odpowiedz.ZaMalo;
+            }
+            else if( propozycja > liczbaOdgadywana )
+            {
+                return Odpowiedz.ZaDuzo;
+            }
+            else
+            {
+                return Odpowiedz.Trafiono;
+            }
+        }
+
+
     }
 }
